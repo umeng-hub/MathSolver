@@ -117,7 +117,7 @@ function generateSteps(expression, result) {
       });
       steps.push({
         step: stepNum++,
-        description: `Multiply ${base} by itself ${exp} time(s)`,
+        description: `Raise ${base} to the power of ${exp}: use ${base} as a factor ${exp} time(s)`,
         expression: `${base}^${exp} = ${result}`,
       });
     }

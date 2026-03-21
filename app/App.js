@@ -5,7 +5,7 @@ import { Provider as PaperProvider, MD3LightTheme, MD3DarkTheme } from 'react-na
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
-import { ThemeProvider, useTheme } from './src/context/ThemeContext';
+import { ThemeProvider, useAppTheme } from './src/context/ThemeContext';
 import { HistoryProvider } from './src/context/HistoryContext';
 import SolverScreen from './src/screens/SolverScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
@@ -33,7 +33,7 @@ const darkPaperTheme = {
 
 // ─── Inner navigator that reads the current theme ────────────────────────────
 function AppNavigator() {
-  const { isDark } = useTheme();
+  const { isDark } = useAppTheme();
 
   const navTheme = isDark
     ? { ...DarkTheme, colors: { ...DarkTheme.colors, primary: '#D0BCFF' } }

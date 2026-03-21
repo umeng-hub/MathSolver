@@ -23,8 +23,8 @@ export function ThemeProvider({ children }) {
 }
 
 /** Convenience hook – throws if used outside ThemeProvider */
-export function useTheme() {
+export function useAppTheme() {
   const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error('useTheme must be used inside ThemeProvider');
+  if (!ctx) throw new Error('useAppTheme must be used inside ThemeProvider');
   return ctx;
 }

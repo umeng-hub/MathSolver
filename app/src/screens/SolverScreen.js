@@ -20,7 +20,7 @@ import {
 
 import { solveExpression } from '../services/api';
 import { useHistory } from '../context/HistoryContext';
-import { useTheme as useAppTheme } from '../context/ThemeContext';
+import { useAppTheme } from '../context/ThemeContext';
 import StepCard from '../components/StepCard';
 
 /**

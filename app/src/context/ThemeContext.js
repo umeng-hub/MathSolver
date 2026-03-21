@@ -5,7 +5,7 @@ const ThemeContext = createContext(null);
 
 /**
  * ThemeProvider wraps the app and exposes isDark + toggleTheme.
- * On first render the system colour scheme is used as the default.
+ * On first render the system color scheme is used as the default.
  */
 export function ThemeProvider({ children }) {
   const systemScheme = useColorScheme();

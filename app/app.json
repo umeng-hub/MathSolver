@@ -16,7 +16,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mathsolver.app"
+      "bundleIdentifier": "com.mathsolver.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "MathSolver uses the camera so you can capture a math problem photo.",
+        "NSPhotoLibraryUsageDescription": "MathSolver uses your photo library so you can upload a math problem image."
+      }
     },
     "android": {
       "adaptiveIcon": {

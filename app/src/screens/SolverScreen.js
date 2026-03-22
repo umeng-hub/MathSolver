@@ -5,7 +5,9 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Image,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import {
   TextInput,
   Button,
@@ -37,6 +39,7 @@ export default function SolverScreen({ navigation }) {
 
   const [expression, setExpression] = useState('');
   const [result, setResult] = useState(null);   // { result, steps, expression }
+  const [photoUri, setPhotoUri] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [snackVisible, setSnackVisible] = useState(false);
@@ -90,7 +93,50 @@ export default function SolverScreen({ navigation }) {
   const handleClear = () => {
     setExpression('');
     setResult(null);
+    setPhotoUri('');
     setError('');
+  };
+
+  const showMessage = (message) => {
+    setError(message);
+    setSnackVisible(true);
+  };
+
+  const pickFromGallery = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      showMessage('Photo library permission is required to upload a problem image.');
+      return;
+    }
+
+    const picked = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.9,
+    });
+
+    if (!picked.canceled && picked.assets?.length) {
+      setPhotoUri(picked.assets[0].uri);
+      showMessage('Image attached. Type the expression to solve it.');
+    }
+  };
+
+  const takePhoto = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      showMessage('Camera permission is required to take a photo of the problem.');
+      return;
+    }
+
+    const captured = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 0.9,
+    });
+
+    if (!captured.canceled && captured.assets?.length) {
+      setPhotoUri(captured.assets[0].uri);
+      showMessage('Photo captured. Type the expression to solve it.');
+    }
   };
 
   return (
@@ -143,6 +189,39 @@ export default function SolverScreen({ navigation }) {
             </Button>
           )}
         </View>
+
+        <View style={styles.photoButtonRow}>
+          <Button
+            mode="outlined"
+            onPress={pickFromGallery}
+            style={styles.photoButton}
+            icon="image"
+          >
+            Upload photo
+          </Button>
+          <Button
+            mode="outlined"
+            onPress={takePhoto}
+            style={styles.photoButton}
+            icon="camera"
+          >
+            Take photo
+          </Button>
+        </View>
+
+        {photoUri ? (
+          <View style={styles.photoPreviewWrapper}>
+            <Image source={{ uri: photoUri }} style={styles.photoPreview} />
+            <Button
+              mode="text"
+              icon="close"
+              onPress={() => setPhotoUri('')}
+              compact
+            >
+              Remove image
+            </Button>
+          </View>
+        ) : null}
       </Surface>
 
       {/* ── Results area ───────────────────────────────────────────────────── */}
@@ -258,6 +337,24 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     flex: 0,
+  },
+  photoButtonRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 10,
+  },
+  photoButton: {
+    flex: 1,
+  },
+  photoPreviewWrapper: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  photoPreview: {
+    width: '100%',
+    height: 180,
+    borderRadius: 12,
+    marginBottom: 4,
   },
   scrollContent: {
     paddingTop: 8,

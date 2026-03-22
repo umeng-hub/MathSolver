@@ -126,12 +126,23 @@ Scan the QR code with the **Expo Go** app (iOS/Android), or press `i` for iOS Si
 
 ## Running Tests
 
+### Server tests
+
 ```bash
 cd server
 npm test
 ```
 
 Runs the full Jest test suite (unit tests for `solver.js` + integration tests for the HTTP routes).
+
+### App tests
+
+```bash
+cd app
+npm test
+```
+
+Runs the React Native component tests using Jest + React Native Testing Library.
 
 ---
 
